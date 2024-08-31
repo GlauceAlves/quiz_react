@@ -55,15 +55,18 @@ const quizReducer = (state, action) => {
         case "NEW_GAME":
             return initialState;
 
-        case "CHECK-ANSWER":{
-            if (state.aswerSelected) return state;
-            console.log(state.aswerSelected)
-
+        case "CHECK-ANSWER": {
             const answer = action.payload.answer
             const option = action.payload.option
-            let correctAnswer = 0 
-            if (answer === option ) correctAnswer = 1;
-            return{
+            // Verifica se já há uma resposta selecionada
+            if (state.answerSelected) {
+                // Se a resposta já foi selecionada, retorna o estado atual sem alterar a pontuação
+                return state;
+            }
+
+            let correctAnswer = 0
+            if (answer === option) correctAnswer = 1;
+            return {
                 ...state,
                 score: state.score + correctAnswer,
                 answerSelected: option,
